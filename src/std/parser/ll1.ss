@@ -232,7 +232,9 @@
 ;; Parse an entire PeekableReader
 (def (ll1/reader parser reader (description reader) (where 'll1/reader))
   (using (reader : PeekableStringReader)
-    (with-catch (lambda (e) (raise-parse-error where "failure parsing" description (error-message e)))
+    (with-catch (lambda (e)
+                  (display-exception e (current-output-port))
+                  (raise-parse-error where "failure parsing" description (error-message e)))
                 (cut (ll1-to-eof parser) reader))))
 
 ;; Parse an entire port
